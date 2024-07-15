@@ -13,12 +13,14 @@
         clevertap.dismissSpamControl = true;
         // Function to load CleverTap script
         function loadCleverTapScript() {
-            var wzrk = document.createElement('script');
-            wzrk.type = 'text/javascript';
-            wzrk.async = true;
-            wzrk.src = ('https:' == document.location.protocol ? 'https://d2r1yp2w7bby2u.cloudfront.net' : 'http://static.clevertap.com') + '/js/clevertap.min.js';
-            var s = document.getElementsByTagName('script')[0];
-            s.parentNode.insertBefore(wzrk, s);
+            (function () {
+                var wzrk = document.createElement('script');
+                wzrk.type = 'text/javascript';
+                wzrk.async = true;
+                wzrk.src = ('https:' == document.location.protocol ? 'https://d2r1yp2w7bby2u.cloudfront.net' : 'http://static.clevertap.com') + '/js/clevertap.min.js';
+                var s = document.getElementsByTagName('script')[0];
+                s.parentNode.insertBefore(wzrk, s);
+            })();
         }
 
         // Function to check localStorage and initialize CleverTap
@@ -216,7 +218,7 @@
                     "Name": name,
                     "Identity": identity,
                     "Email": email,
-                    "Phone": "+91"+phone,
+                    "Phone": "91"+phone,
                     "Gender": gender,
                     "Sign Up": new Date(),
                     "MSG-email": true,
