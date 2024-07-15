@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Features Page</title>
+    <script type="text/javascript">
+        var clevertap = { event: [], profile: [], account: [], onUserLogin: [], notifications: [], privacy: [] };
+        clevertap.account.push({ "id": "WR7-899-766Z" });
+        clevertap.privacy.push({ optOut: false });
+        clevertap.privacy.push({ useIP: false });
+        clevertap.dismissSpamControl = true;
+        // Function to load CleverTap script
+        function loadCleverTapScript() {
+            var wzrk = document.createElement('script');
+            wzrk.type = 'text/javascript';
+            wzrk.async = true;
+            wzrk.src = ('https:' == document.location.protocol ? 'https://d2r1yp2w7bby2u.cloudfront.net' : 'http://static.clevertap.com') + '/js/clevertap.min.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(wzrk, s);
+        }
+
+        // Function to check localStorage and initialize CleverTap
+        function initializeCleverTap() {
+            var username = localStorage.getItem('username');
+            if (username) {
+                // Initialize CleverTap script
+                loadCleverTapScript();
+                window.clevertapInitialized = true;
+            }
+        }
+
+        // Check localStorage and initialize CleverTap on page load
+        window.onload = function () {
+            initializeCleverTap();
+        };
+
+        // Function to clear localStorage on logout
+        function logout() {
+            localStorage.removeItem('username');
+        }
+    </script>
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics.js";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+
+        // Your web app's Firebase configuration
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        const firebaseConfig = {
+            apiKey: "AIzaSyDXtM7vUppLjsIQblBYJ6ko3vRZmOcFLSQ",
+            authDomain: "application-13302.firebaseapp.com",
+            databaseURL: "https://application-13302-default-rtdb.firebaseio.com",
+            projectId: "application-13302",
+            storageBucket: "application-13302.appspot.com",
+            messagingSenderId: "92634320339",
+            appId: "1:92634320339:web:b22f11b947cc88d0bff326",
+            measurementId: "G-WFZ3M0LT6J"
+        };
+
+        function nativeDisplay() {
+            clevertap.event.push("Native Display");
+        }
+        document.addEventListener("DOMContentLoaded", nativeDisplay);
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+    </script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+        }
+
+        #native {
+            margin-bottom: 20px;
+            text-align: center;
+            background-color: #ddd;
+            padding: 10px;
+        }
+
+        .button-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .button-container>* {
+            flex: 1 0 calc(33.33% - 20px);
+
+            max-width: calc(33.33% - 20px);
+        }
+
+        .button {
+            padding: 10px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            text-transform: uppercase;
+            color: white;
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            width: 100%;
+        }
+
+        .button:hover {
+            background-color: #45a049;
+        }
+
+        form {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        label {
+            width: 100px;
+            text-align: right;
+        }
+
+        input,
+        select {
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            flex: 1;
+            max-width: calc(50% - 20px);
+        }
+
+        button[type="button"] {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            width: 100%;
+        }
+
+        button[type="button"]:hover {
+            background-color: #0056b3;
+        }
+
+        h1 {
+            width: 100%;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="native">
+        This is the native content.
+    </div>
+    <h5><a href="login.html" onclick="logout()">Logout</a></h5>
+
+    <h1>Web Integration</h1>
+
+    <form id="userInfoForm">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+
+        <label for="identity">Identity:</label>
+        <input type="text" id="identity" name="identity" required>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="number">Phone No:</label>
+        <input type="number" id="number" name="number" required>
+
+        <label for="gender">Gender:</label>
+        <select id="gender" name="gender" required>
+            <option value="M">M</option>
+            <option value="F">F</option>
+        </select>
+    </form><br>
+
+    <div class="button-container">
+        <button class="button" id="event" onclick="pushEvent()">Push Event</button>
+        <button class="button" id="login" onclick="onuserlogin()">OnUserLogin</button>
+        <button class="button" id="ipfalse" onclick="ipfalse()">IP FALSE</button>
+        <button class="button" id="iptrue" onclick="iptrue()">IP TRUE</button>
+        <button class="button" id="login" onclick="profilepush()">ProfilePush</button>
+        <button class="button" id="loc" onclick="pushnotif()">Enable Notification</button>
+        <button class="button" id="showid" onclick="showctid()">Show CT ID </button>
+        <button class="button" id="clearid" onclick="clear()">Clear CT ID </button>
+        <button class="button" id="popup" onclick="popup()">Web Pop-up </button>
+        <button class="button" id="push" onclick="pushnotification()">Web Push </button>
+    </div>
+    <h2 id="test"></h2>
+
+    <script>
+        let onuserlogin = () => {
+            var name, identity, email, gender, phone;
+            name = document.getElementById('name').value;
+            identity = document.getElementById('identity').value;
+            email = document.getElementById('email').value;
+            phone = document.getElementById('number').value;
+            gender = document.getElementById('gender').value;
+            clevertap.onUserLogin.push({
+                "Site": {
+                    "Name": name,
+                    "Identity": identity,
+                    "Email": email,
+                    "Phone": phone,
+                    "Gender": gender,
+                    "Sign Up": new Date(),
+                    "MSG-email": true,
+                    "MSG-push": true,
+                    "MSG-sms": true,
+                    "MSG-whatsapp": true,
+                },
+            });
+        };
+
+        let pushEvent = () => {
+            clevertap.event.push("Products Viewed", {
+                "Product name": "Casio Chronograph Watch",
+                "Category": "Mens Accessories",
+                "Price": 59.99,
+                "Date": new Date()
+            });
+        };
+
+        let popup = () => {
+            clevertap.event.push("Web Pop-up");
+        };
+
+        let pushnotification = () => {
+            clevertap.event.push("Web Push Notification");
+        };
+
+
+        let ipfalse = () => {
+
+            clevertap.privacy.push({
+                useIP: false
+            });
+            clevertap.event.push("useIP: false ");
+
+
+        };
+
+        let iptrue = () => {
+            clevertap.privacy.push({
+                useIP: true
+            });
+            clevertap.event.push("useIP: true ");
+
+        };
+
+
+
+        let profilepush = () => {
+            clevertap.profile.push({
+                "Site": {
+                    "Customer Type": "Silver",
+                    "Prefered Language": "English"
+                }
+            });
+        }
+
+        let showctid = () => {
+            var ctid = clevertap.getCleverTapID();
+            document.getElementById("test").innerHTML = ctid;
+        };
+
+
+
+        let clear = () => {
+            clevertap.clear();
+            var cookies = document.cookie.split(";");
+
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = cookies[i];
+                var eqPos = cookie.indexOf("=");
+                var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+
+                // Set the expiry date of the cookie to a past date
+                document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/";
+            }
+
+        };
+    </script>
+
+    <script>
+        let pushnotif = () => {
+            clevertap.notifications.push({
+                "titleText": "Would you like to receive Push Notifications?",
+                "bodyText": "We promise to only send you relevant content and give you updates on your transactions",
+                "okButtonText": "Sign me up!",
+                "rejectButtonText": "No thanks",
+                "okButtonColor": "#F28046",
+                "askAgainTimeInSeconds": 5,
+            });
+        };
+    </script>
+
+    <script>
+        function handleTabClosing(event) {
+            console.log("Tab is closing...");
+            clevertap.event.push("Web Exit");
+            event.returnValue = "Are you sure you want to leave this page?";
+        }
+        window.addEventListener('beforeunload', handleTabClosing);
+
+        const closeButton = document.querySelector('.close-button');
+        closeButton.addEventListener('click', () => {
+            window.removeEventListener('beforeunload', handleTabClosing);
+            window.close();
+        });
+
+    </script>
+
+    </div>
+</body>
+
+</html>

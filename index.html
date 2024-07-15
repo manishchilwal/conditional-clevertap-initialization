@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <link rel="stylesheet" href="styles.css">
+    <script type="text/javascript">
+        var clevertap = { event: [], profile: [], account: [], onUserLogin: [], notifications: [], privacy: [] };
+        clevertap.account.push({ "id": "WR7-899-766Z" });
+        clevertap.privacy.push({ optOut: false });
+        clevertap.privacy.push({ useIP: false });
+        clevertap.dismissSpamControl = true;
+        // Function to load CleverTap script
+        function loadCleverTapScript() {
+            var wzrk = document.createElement('script');
+            wzrk.type = 'text/javascript';
+            wzrk.async = true;
+            wzrk.src = ('https:' == document.location.protocol ? 'https://d2r1yp2w7bby2u.cloudfront.net' : 'http://static.clevertap.com') + '/js/clevertap.min.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(wzrk, s);
+        }
+
+        // Function to check localStorage and initialize CleverTap
+        function initializeCleverTap() {
+            var username = localStorage.getItem('username');
+            if (username) {
+                // Initialize CleverTap script
+                loadCleverTapScript();
+                window.clevertapInitialized = true;
+            }
+        }
+
+        // Check localStorage and initialize CleverTap on page load
+        window.onload = function() {
+            initializeCleverTap();
+        };
+    </script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <h1>Welcome to Our Website</h1>
+                <p>A place where you can find amazing things!</p>
+                <div class="auth-links">
+                    <a href="login.html" class="login">Login</a>
+                    <a href="signup.html" class="signup">Sign Up</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <section class="features">
+                <div class="feature">
+                    <img src="image1.jpg" alt="Feature 1">
+                    <h2>Feature 1</h2>
+                    <p>Description of feature 1.</p>
+                    <button onclick="pushEvent('Products Viewed', 'Chrono Watch', 500, 'Accessories')">Product Viewed</button>
+                    <button onclick="pushEvent('Added To Cart', 'Chrono Watch', 500, 'Accessories')">Add to Cart</button>
+                </div>
+                <div class="feature">
+                    <img src="image2.jpg" alt="Feature 2">
+                    <h2>Feature 2</h2>
+                    <p>Description of feature 2.</p>
+                    <button onclick="pushEvent('Products Viewed', 'Necklase', 400, 'Accessories')">Product Viewed</button>
+                    <button onclick="pushEvent('Added To Cart', 'Chrono Watch', 400, 'Accessories')">Add to Cart</button>
+                </div>
+                <div class="feature">
+                    <img src="image3.jpg" alt="Feature 3">
+                    <h2>Feature 3</h2>
+                    <p>Description of feature 3.</p>
+                    <button onclick="pushEvent('Products Viewed', 'Chrono Watch', 300, 'Accessories')">Product Viewed</button>
+                    <button onclick="pushEvent('Added To Cart', 'Chrono Watch', 300, 'Accessories')">Add to Cart</button>
+                </div>
+            </section>
+
+            <section class="about-us">
+                <h2>About Us</h2>
+                <p>We are a dedicated team...</p>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Your Company. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Function to push events to CleverTap
+        function pushEvent(eventName, productName, price, category) {
+
+            console.log(eventName + " called and started.");
+
+            clevertap.event.push(eventName, {
+                "Product name": productName,
+                "Category": category,
+                "Price": price,
+                "Date": new Date()
+            });
+
+
+            console.log(eventName + " called and ended.");
+        }
+
+        // Example functions to get product details (replace with actual logic)
+        function getPrice(productName) {
+            // Example logic to get product price
+            return 59.99; // Replace with actual price retrieval logic
+        }
+
+        function getCategory(productName) {
+            // Example logic to get product category
+            return "Mens Accessories"; // Replace with actual category retrieval logic
+        }
+    </script>
+</body>
+</html>

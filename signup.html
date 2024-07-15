@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- CleverTap SDK -->
+    <script type="text/javascript">
+        var clevertap = { event: [], profile: [], account: [], onUserLogin: [], notifications: [], privacy: [] };
+        clevertap.account.push({ "id": "WR7-899-766Z" });
+        clevertap.privacy.push({ optOut: false });
+        clevertap.privacy.push({ useIP: false });
+        clevertap.dismissSpamControl = true;
+        // Function to load CleverTap script
+        function loadCleverTapScript() {
+            var wzrk = document.createElement('script');
+            wzrk.type = 'text/javascript';
+            wzrk.async = true;
+            wzrk.src = ('https:' == document.location.protocol ? 'https://d2r1yp2w7bby2u.cloudfront.net' : 'http://static.clevertap.com') + '/js/clevertap.min.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(wzrk, s);
+        }
+
+        // Function to check localStorage and initialize CleverTap
+        function initializeCleverTap() {
+            var username = localStorage.getItem('username');
+            if (username) {
+                // Initialize CleverTap script
+                loadCleverTapScript();
+                window.clevertapInitialized = true;
+            }
+        }
+
+        // Check localStorage and initialize CleverTap on page load
+        window.onload = function() {
+            initializeCleverTap();
+        };
+    </script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Sign Up</h1>
+            <nav>
+                <a href="index.html">Home</a> <!-- Replace "index.html" with your homepage URL -->
+                <a href="login.html">Login</a> <!-- Replace "login.html" with your login page URL -->
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <form id="signup-form" action="feature.html" method="POST" onsubmit="handleSignUp(event)">
+                <div class="form-group">
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone Number:</label>
+                    <input type="tel" id="phone" name="phone" pattern="[0-9]{10}" required>
+                    <small>Format: 10 digits only (e.g., 1234567890)</small>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <div class="form-group">
+                    <label for="confirm-password">Confirm Password:</label>
+                    <input type="password" id="confirm-password" name="confirm-password" required>
+                </div>
+                <button type="submit">Sign Up</button>
+            </form>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Your Company. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        function handleSignUp(event) {
+            event.preventDefault(); // Prevent the form from submitting normally
+
+            // Retrieve form data
+            var username = document.getElementById('username').value;
+            var name = document.getElementById('name').value;
+            var email = document.getElementById('email').value;
+            var phone = document.getElementById('phone').value;
+
+            // Set local storage with username
+            localStorage.setItem('username', username);
+
+            // Initialize CleverTap if not already initialized
+            if (!window.clevertapInitialized) {
+                loadCleverTapScript();
+                window.clevertapInitialized = true;
+            }
+
+            // Push event to CleverTap
+            clevertap.onUserLogin.push({
+                "Site": {
+                    "Identity": username,
+                    "Name": name,
+                    "Email": email,
+                    "Phone": "+91" + phone,
+                    "Sign Up": new Date(),
+                    "MSG-email": true,
+                    "MSG-push": true,
+                    "MSG-sms": true,
+                    "MSG-whatsapp": true,
+                },
+            });
+
+
+            window.location.href = 'feature.html';
+        }
+    </script>
+</body>
+</html>
