@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Login Page</title>
@@ -12,12 +13,14 @@
         clevertap.dismissSpamControl = true;
         // Function to load CleverTap script
         function loadCleverTapScript() {
-            var wzrk = document.createElement('script');
-            wzrk.type = 'text/javascript';
-            wzrk.async = true;
-            wzrk.src = ('https:' == document.location.protocol ? 'https://d2r1yp2w7bby2u.cloudfront.net' : 'http://static.clevertap.com') + '/js/clevertap.min.js';
-            var s = document.getElementsByTagName('script')[0];
-            s.parentNode.insertBefore(wzrk, s);
+            (function () {
+                var wzrk = document.createElement('script');
+                wzrk.type = 'text/javascript';
+                wzrk.async = true;
+                wzrk.src = ('https:' == document.location.protocol ? 'https://d2r1yp2w7bby2u.cloudfront.net' : 'http://static.clevertap.com') + '/js/clevertap.min.js';
+                var s = document.getElementsByTagName('script')[0];
+                s.parentNode.insertBefore(wzrk, s);
+            })();
         }
 
         // Function to check localStorage and initialize CleverTap
@@ -31,15 +34,16 @@
         }
 
         // Check localStorage and initialize CleverTap on page load
-        window.onload = function() {
+        window.onload = function () {
             initializeCleverTap();
         };
     </script>
 </head>
+
 <body>
     <div class="login-container">
         <h2>Login</h2>
-        <form id="login-form" action="feature.html" onsubmit="handleLogin(event)">
+        <form id="login-form" action="feature.html" method="POST">
             <div class="form-group">
                 <label for="username">Username:</label>
                 <input type="text" id="username" name="username" required>
@@ -48,7 +52,7 @@
                 <label for="password">Password:</label>
                 <input type="password" id="password" name="password" required>
             </div>
-            <button type="submit">Login</button>
+            <button type="button" onclick="handleLogin()">Login</button>
         </form>
         <div class="form-group">
             <p>Don't have an account? <a href="signup.html">Sign Up</a></p>
@@ -59,8 +63,11 @@
     </div>
 
     <script>
-        function handleLogin(event) {
-            event.preventDefault(); // Prevent the form from submitting normally
+        function handleLogin() {
+            if (!window.clevertapInitialized) {
+                loadCleverTapScript();
+                window.clevertapInitialized = true;
+            }
 
             // Retrieve form data
             var username = document.getElementById('username').value;
@@ -68,11 +75,15 @@
             // Set localStorage with username
             localStorage.setItem('username', username);
 
-            // Initialize CleverTap if not already initialized
-            if (!window.clevertapInitialized) {
-                loadCleverTapScript();
-                window.clevertapInitialized = true;
-            }
+            // Introduce a delay of 500 milliseconds before calling clevertapLogin()
+            setTimeout(function () {
+                clevertapLogin();
+            }, 100);
+        }
+
+        function clevertapLogin() {
+            // Retrieve form data
+            var username = document.getElementById('username').value;
 
             // Push event to CleverTap
             clevertap.onUserLogin.push({
@@ -81,9 +92,12 @@
                 },
             });
 
-            // Redirect to feature.html
-            window.location.href = 'feature.html';
+            // Delay before redirecting to feature.html (e.g., 1 second)
+            setTimeout(function () {
+                window.location.href = 'feature.html';
+            }, 200);
         }
     </script>
 </body>
+
 </html>
